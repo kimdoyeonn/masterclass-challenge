@@ -1,17 +1,19 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import { Categories, IToDo, todoState } from './atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { categoryState, IToDo, todoState } from './atoms';
 
-const ToDo = ({ text, category, id }: IToDo) => {
+const ToDo = ({ text }: { text: string }) => {
   const setToDos = useSetRecoilState(todoState);
+  const toDos = useRecoilValue(todoState);
+  const category = useRecoilValue(categoryState);
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name },
     } = event;
     setToDos((oldTodos) => {
-      const targetIndex = oldTodos.findIndex((todo) => todo.id === id);
+      const targetIndex = oldTodos[name];
       const oldToDo = oldTodos[targetIndex];
-      const newToDo = { ...oldToDo, category: name as any };
+      const newToDo = { ...oldToDo,  };
       return [
         ...oldTodos.slice(0, targetIndex),
         newToDo,
@@ -22,21 +24,11 @@ const ToDo = ({ text, category, id }: IToDo) => {
   return (
     <li>
       {text}
-      {category !== Categories.DOING && (
-        <button name={Categories.DOING + ''} onClick={onClick}>
-          Doing
+      {Object.keys(toDos).map((category, index) => (
+        <button key={index} name={category} onClick={onClick}>
+          {category}
         </button>
-      )}
-      {category !== Categories.TO_DO && (
-        <button name={Categories.TO_DO + ''} onClick={onClick}>
-          Todo
-        </button>
-      )}
-      {category !== Categories.DONE && (
-        <button name={Categories.DONE + ''} onClick={onClick}>
-          Done
-        </button>
-      )}
+      ))}
     </li>
   );
 };
