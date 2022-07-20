@@ -13,6 +13,7 @@ function App() {
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
     setCategory(event.currentTarget.value as any);
   };
+  console.log(allToDos, Object.keys(allToDos))
   return (
     <div>
       <h1>ToDo List</h1>
@@ -22,7 +23,7 @@ function App() {
         {Object.keys(allToDos).map((cate, index) => <option value={cate} key={index}>{cate}</option>)}
       </select>
       <CreateToDos />
-      {toDos.map((toDo) => <ToDo key={toDo} text={toDo} />)}
+      {toDos.map((toDo, index) => <ToDo key={toDo} text={toDo} index={index} />)}
     </div>
   );
 }

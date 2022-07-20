@@ -5,7 +5,7 @@ export interface IToDo {
 }
 
 export const todoState = atom<IToDo>({
-  key: 'toDo',
+  key: 'toDos',
   default: JSON.parse(
     localStorage.getItem('toDos') ??
       JSON.stringify({ toDo: [], doing: [], done: [] })
@@ -14,7 +14,7 @@ export const todoState = atom<IToDo>({
 
 export const categoryState = atom({
   key: 'categoryState',
-  default: Object.keys(todoState)[0],
+  default: 'toDo',
 });
 
 export const todoSelector = selector({
